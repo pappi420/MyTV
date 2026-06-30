@@ -165,3 +165,28 @@ export async function searchMovies(query: string) {
     overview: movie.overview,
   }));
 }
+
+export async function getMovieTrailer(id: string) {
+  const response = await fetch(
+    `${BASE_URL}/movie/${id}/videos?api_key=${API_KEY}`,
+    {
+      next: {
+        revalidate: 3600,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch trailer");
+  }
+
+  const data = await response.json();
+
+  const trailer = data.results.find(
+    (video: any) =>
+      video.site === "YouTube" &&
+      video.type === "Trailer"
+  );
+
+  return trailer ?? null;
+}
