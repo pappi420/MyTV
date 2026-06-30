@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { FavoritesProvider } from "@/context/FavoritesContext";
+import { HistoryProvider } from "@/context/HistoryContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +32,9 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <FavoritesProvider>
-          {children}
+          <HistoryProvider>
+            {children}
+          </HistoryProvider>
         </FavoritesProvider>
       </body>
     </html>

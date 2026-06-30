@@ -1,6 +1,6 @@
 "use client";
 
-type TrailerModalProps = {
+type Props = {
   youtubeKey: string;
   onClose: () => void;
 };
@@ -8,30 +8,31 @@ type TrailerModalProps = {
 export default function TrailerModal({
   youtubeKey,
   onClose,
-}: TrailerModalProps) {
+}: Props) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
       onClick={onClose}
     >
       <div
-        className="relative w-[90%] max-w-5xl overflow-hidden rounded-2xl bg-black"
+        className="relative w-[90%] max-w-5xl"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 z-10 rounded-full bg-black/70 px-3 py-1 text-white hover:bg-red-600"
+          className="absolute -top-12 right-0 rounded bg-red-600 px-4 py-2 text-white"
         >
-          ✕
+          Close
         </button>
 
         <iframe
-          className="aspect-video w-full"
+          width="100%"
+          height="700"
           src={`https://www.youtube.com/embed/${youtubeKey}?autoplay=1`}
-          title="Movie Trailer"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+          title="Trailer"
+          allow="autoplay; encrypted-media"
           allowFullScreen
-        />
+        ></iframe>
       </div>
     </div>
   );

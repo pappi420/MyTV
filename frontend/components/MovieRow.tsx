@@ -4,10 +4,10 @@ type Movie = {
   id: number;
   title: string;
   year: string;
-  rating: string;
+  rating: string | number;
   poster: string;
-  backdrop: string;
-  overview: string;
+  backdrop?: string;
+  overview?: string;
 };
 
 type MovieRowProps = {

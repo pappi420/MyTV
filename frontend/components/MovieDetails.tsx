@@ -1,32 +1,53 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import TrailerModal from "./TrailerModal";
 import MovieRow from "./MovieRow";
+import TrailerModal from "./TrailerModal";
+import CastRow from "./CastRow";
 import { useFavorites } from "@/context/FavoritesContext";
+import { useHistory } from "@/context/HistoryContext";
 
 type MovieDetailsProps = {
   movie: any;
   similar: any[];
   trailer: any;
+  cast: any[];
 };
 
 export default function MovieDetails({
   movie,
- similar,
+  similar,
   trailer,
+  cast,
 }: MovieDetailsProps) {
   const [openTrailer, setOpenTrailer] = useState(false);
-  const {
-  toggleFavorite,
-  isFavorite,
-} = useFavorites();
 
+  const {
+    toggleFavorite,
+    isFavorite,
+  } = useFavorites();
+  const { addHistory } = useHistory();
+  useEffect(() => {
+  console.log("History Added:", movie.title);
+}, [movie.id]);
+  
+
+useEffect(() => {
+  addHistory({
+    id: movie.id,
+    title: movie.title,
+    year: movie.year,
+    poster: movie.poster,
+    rating: Number(movie.rating),
+  });
+}, [movie.id]);
+console.log("CastRow:", CastRow);
   return (
     <main className="min-h-screen bg-[#070707] text-white">
 
+      {/* Hero */}
       <section className="relative h-[500px]">
 
         <Image
@@ -41,6 +62,7 @@ export default function MovieDetails({
 
       </section>
 
+      {/* Content */}
       <div className="relative -mt-48 flex gap-10 px-16">
 
         <Image
@@ -65,7 +87,7 @@ export default function MovieDetails({
             {movie.title}
           </h1>
 
-          <div className="mt-6 flex flex-wrap items-center gap-3">
+          <div className="mt-6 flex flex-wrap gap-3">
 
             <span className="rounded-full bg-yellow-500 px-4 py-2 font-semibold text-black">
               ⭐ {movie.rating}
@@ -81,9 +103,9 @@ export default function MovieDetails({
 
           </div>
 
-          <div className="mt-5 flex gap-2 flex-wrap">
+          <div className="mt-5 flex flex-wrap gap-2">
 
-            {movie.genres.map((genre: any) => (
+            {movie.genres?.map((genre: any) => (
               <span
                 key={genre.id}
                 className="rounded-full bg-zinc-800 px-4 py-2 text-sm"
@@ -110,19 +132,21 @@ export default function MovieDetails({
             )}
 
             <button
-  onClick={() =>
-    toggleFavorite({
-      id: movie.id,
-      title: movie.title,
-      year: movie.year,
-      poster: movie.poster,
-      rating: Number(movie.rating),
-    })
-  }
-  className="rounded-xl border border-white px-8 py-4"
->
-  {isFavorite(movie.id) ? "❤️ Favorited" : "🤍 Favorite"}
-</button>
+              onClick={() =>
+                toggleFavorite({
+                  id: movie.id,
+                  title: movie.title,
+                  year: movie.year,
+                  poster: movie.poster,
+                  rating: Number(movie.rating),
+                })
+              }
+              className="rounded-xl border border-white px-8 py-4"
+            >
+              {isFavorite(movie.id)
+                ? "❤️ Favorited"
+                : "🤍 Favorite"}
+            </button>
 
           </div>
 
@@ -130,6 +154,14 @@ export default function MovieDetails({
 
       </div>
 
+      {/* Cast */}
+     <div className="px-16">
+  <div className="px-16">
+  <CastRow cast={cast} />
+</div>
+</div>
+
+      {/* Similar */}
       <div className="px-16 pb-20">
 
         <MovieRow
@@ -139,12 +171,13 @@ export default function MovieDetails({
 
       </div>
 
+      {/* Trailer */}
       {openTrailer && trailer?.key && (
-  <TrailerModal
-    youtubeKey={trailer.key}
-    onClose={() => setOpenTrailer(false)}
-  />
-)}
+        <TrailerModal
+          youtubeKey={trailer.key}
+          onClose={() => setOpenTrailer(false)}
+        />
+      )}
 
     </main>
   );

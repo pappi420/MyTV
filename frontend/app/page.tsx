@@ -1,6 +1,7 @@
 import Sidebar from "@/components/Sidebar";
 import Hero from "@/components/Hero";
 import MovieRow from "@/components/MovieRow";
+import ContinueWatching from "@/components/ContinueWatching";
 
 import {
   getTrendingHero,
@@ -33,7 +34,7 @@ export default async function Home() {
       <Sidebar />
 
       <div className="ml-64 p-10">
-        <div className="flex justify-between items-center mb-8">
+        <div className="mb-8 flex items-center justify-between">
           <input
             placeholder="Search movies..."
             className="w-96 rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-3 outline-none"
@@ -45,7 +46,10 @@ export default async function Home() {
             </div>
 
             <div>
-              <div className="font-semibold">Apolonio</div>
+              <div className="font-semibold">
+                Apolonio
+              </div>
+
               <div className="text-sm text-gray-400">
                 Administrator
               </div>
@@ -55,11 +59,32 @@ export default async function Home() {
 
         <Hero movie={hero} />
 
-        <MovieRow title="🔥 Trending" movies={trending} />
-        <MovieRow title="⭐ Top Rated" movies={topRated} />
-        <MovieRow title="🎬 Now Playing" movies={nowPlaying} />
-        <MovieRow title="📅 Upcoming" movies={upcoming} />
-        <MovieRow title="🍿 Popular" movies={popular} />
+        <ContinueWatching />
+
+        <MovieRow
+          title="🔥 Trending"
+          movies={trending}
+        />
+
+        <MovieRow
+          title="⭐ Top Rated"
+          movies={topRated}
+        />
+
+        <MovieRow
+          title="🎬 Now Playing"
+          movies={nowPlaying}
+        />
+
+        <MovieRow
+          title="📅 Upcoming"
+          movies={upcoming}
+        />
+
+        <MovieRow
+          title="🍿 Popular"
+          movies={popular}
+        />
       </div>
     </main>
   );

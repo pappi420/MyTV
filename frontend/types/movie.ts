@@ -2,7 +2,13 @@ export interface Movie {
   id: number;
   title: string;
   year: string;
-  genre: string;
-  rating: number;
+  rating: string | number;
   poster: string;
+  backdrop?: string;
+  overview?: string;
+  runtime?: number;
+  genres?: {
+    id: number;
+    name: string;
+  }[];
 }

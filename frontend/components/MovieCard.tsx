@@ -15,16 +15,13 @@ export default function MovieCard({
   year,
   poster,
   rating,
-}: MovieCardProps) 
-{
+}: MovieCardProps) {
   return (
     <Link
-  href={`/movie/${id}`}
-  className="group relative block w-[170px] flex-shrink-0 cursor-pointer transition duration-300 hover:z-20 hover:scale-110"
->
-
+      href={`/movie/${id}`}
+      className="group relative block w-[170px] flex-shrink-0 cursor-pointer transition duration-300 hover:z-20 hover:scale-110"
+    >
       <div className="relative aspect-[2/3] overflow-hidden rounded-2xl">
-
         <Image
           src={poster}
           alt={title}
@@ -44,7 +41,6 @@ export default function MovieCard({
             ▶
           </button>
         </div>
-
       </div>
 
       <div className="mt-3">
@@ -56,7 +52,6 @@ export default function MovieCard({
           {year}
         </p>
       </div>
-
     </Link>
   );
 }

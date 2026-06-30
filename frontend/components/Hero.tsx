@@ -1,7 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 
 type HeroProps = {
   movie: {
+    id: number;
     title: string;
     overview: string;
     backdrop: string;
@@ -11,7 +13,6 @@ type HeroProps = {
 export default function Hero({ movie }: HeroProps) {
   return (
     <section className="relative h-[520px] overflow-hidden rounded-3xl">
-
       <Image
         src={movie.backdrop}
         alt={movie.title}
@@ -23,9 +24,7 @@ export default function Hero({ movie }: HeroProps) {
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
 
       <div className="relative z-10 flex h-full items-center px-16">
-
         <div className="max-w-xl">
-
           <p className="mb-2 tracking-[0.3em] uppercase text-blue-400">
             Trending
           </p>
@@ -39,19 +38,22 @@ export default function Hero({ movie }: HeroProps) {
           </p>
 
           <div className="flex gap-4">
-            <button className="rounded-xl bg-white px-8 py-4 font-bold text-black">
+            <Link
+              href={`/movie/${movie.id}`}
+              className="rounded-xl bg-white px-8 py-4 font-bold text-black transition hover:scale-105"
+            >
               ▶ Play
-            </button>
+            </Link>
 
-            <button className="rounded-xl border border-white px-8 py-4">
+            <Link
+              href={`/movie/${movie.id}`}
+              className="rounded-xl border border-white px-8 py-4 transition hover:bg-white hover:text-black"
+            >
               ℹ More Info
-            </button>
+            </Link>
           </div>
-
         </div>
-
       </div>
-
     </section>
   );
 }

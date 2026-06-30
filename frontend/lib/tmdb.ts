@@ -190,3 +190,89 @@ export async function getMovieTrailer(id: string) {
 
   return trailer ?? null;
 }
+
+export async function getMovieCredits(id: string) {
+  const response = await fetch(
+    `${BASE_URL}/movie/${id}/credits?api_key=${API_KEY}`,
+    {
+      next: {
+        revalidate: 3600,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch credits");
+  }
+
+  const data = await response.json();
+
+  return data.cast.slice(0, 12).map((actor: any) => ({
+    id: actor.id,
+    name: actor.name,
+    character: actor.character,
+    profile: actor.profile_path
+      ? `${IMAGE_BASE_URL}${actor.profile_path}`
+      : "/actor-placeholder.png",
+  }));
+}
+
+export async function getActor(id: string) {
+  const response = await fetch(
+    `${BASE_URL}/person/${id}?api_key=${API_KEY}`,
+    {
+      next: {
+        revalidate: 3600,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch actor");
+  }
+
+  const actor = await response.json();
+
+  return {
+    id: actor.id,
+    name: actor.name,
+    biography: actor.biography,
+    birthday: actor.birthday,
+    place: actor.place_of_birth,
+    profile: actor.profile_path
+      ? `${IMAGE_BASE_URL}${actor.profile_path}`
+      : "/actor-placeholder.png",
+  };
+}
+
+export async function getActorMovies(id: string) {
+  const response = await fetch(
+    `${BASE_URL}/person/${id}/movie_credits?api_key=${API_KEY}`,
+    {
+      next: {
+        revalidate: 3600,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch actor movies");
+  }
+
+  const data = await response.json();
+
+  return data.cast
+    .sort(
+      (a: any, b: any) => b.popularity - a.popularity
+    )
+    .slice(0, 12)
+    .map((movie: any) => ({
+      id: movie.id,
+      title: movie.title,
+      year: movie.release_date?.split("-")[0] ?? "",
+      rating: movie.vote_average.toFixed(1),
+      poster: movie.poster_path
+        ? `${IMAGE_BASE_URL}${movie.poster_path}`
+        : "/poster-placeholder.png",
+    }));
+}
