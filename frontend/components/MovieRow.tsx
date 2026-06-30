@@ -1,24 +1,27 @@
 import MovieCard from "@/components/MovieCard";
-import { getMovies } from "@/services/movieService";
+
+type Movie = {
+  id: number;
+  title: string;
+  year: string;
+  rating: string;
+  poster: string;
+  backdrop: string;
+  overview: string;
+};
 
 type MovieRowProps = {
   title: string;
-  search: string;
+  movies: Movie[];
 };
 
-export default async function MovieRow({
+export default function MovieRow({
   title,
-  search,
+  movies,
 }: MovieRowProps) {
-  const movies = await getMovies();
-
-  const filteredMovies = movies.filter((movie: any) =>
-    movie.title.toLowerCase().includes(search.toLowerCase())
-  );
-
   return (
     <section className="mt-12">
-      <div className="flex items-center justify-between mb-5">
+      <div className="mb-5 flex items-center justify-between">
         <h2 className="text-2xl font-bold">{title}</h2>
 
         <button className="text-blue-400 hover:text-blue-300">
@@ -27,9 +30,10 @@ export default async function MovieRow({
       </div>
 
       <div className="flex gap-6 overflow-x-auto pb-4">
-        {filteredMovies.map((movie: any) => (
+        {movies.map((movie) => (
           <MovieCard
             key={movie.id}
+            id={movie.id}
             title={movie.title}
             year={movie.year}
             poster={movie.poster}

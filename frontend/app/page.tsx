@@ -1,25 +1,40 @@
-"use client";
-
-import { useState } from "react";
-
 import Sidebar from "@/components/Sidebar";
 import Hero from "@/components/Hero";
 import MovieRow from "@/components/MovieRow";
 
-export default function Home() {
-  const [search, setSearch] = useState("");
+import {
+  getTrendingHero,
+  getTrendingMovies,
+  getTopRatedMovies,
+  getPopularMovies,
+  getUpcomingMovies,
+  getNowPlayingMovies,
+} from "@/lib/tmdb";
+
+export default async function Home() {
+  const [
+    hero,
+    trending,
+    topRated,
+    popular,
+    upcoming,
+    nowPlaying,
+  ] = await Promise.all([
+    getTrendingHero(),
+    getTrendingMovies(),
+    getTopRatedMovies(),
+    getPopularMovies(),
+    getUpcomingMovies(),
+    getNowPlayingMovies(),
+  ]);
 
   return (
     <main className="min-h-screen bg-[#070707] text-white">
       <Sidebar />
 
       <div className="ml-64 p-10">
-
         <div className="flex justify-between items-center mb-8">
-
           <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
             placeholder="Search movies..."
             className="w-96 rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-3 outline-none"
           />
@@ -36,28 +51,16 @@ export default function Home() {
               </div>
             </div>
           </div>
-
         </div>
 
-  
+        <Hero movie={hero} />
 
-        <MovieRow
-          title="Continue Watching"
-          search={search}
-        />
-
-        <MovieRow
-          title="Trending Now"
-          search={search}
-        />
-
-        <MovieRow
-          title="Popular Movies"
-          search={search}
-        />
-
+        <MovieRow title="🔥 Trending" movies={trending} />
+        <MovieRow title="⭐ Top Rated" movies={topRated} />
+        <MovieRow title="🎬 Now Playing" movies={nowPlaying} />
+        <MovieRow title="📅 Upcoming" movies={upcoming} />
+        <MovieRow title="🍿 Popular" movies={popular} />
       </div>
     </main>
   );
 }
-
