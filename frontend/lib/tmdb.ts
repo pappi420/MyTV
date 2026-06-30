@@ -276,3 +276,16 @@ export async function getActorMovies(id: string) {
         : "/poster-placeholder.png",
     }));
 }
+export async function searchMovieByTitle(title: string) {
+  const response = await fetch(
+    `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(title)}`
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to search TMDb");
+  }
+
+  const data = await response.json();
+
+  return data.results[0] ?? null;
+}

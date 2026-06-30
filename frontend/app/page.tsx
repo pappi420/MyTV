@@ -1,91 +1,93 @@
-import Sidebar from "@/components/Sidebar";
-import Hero from "@/components/Hero";
-import MovieRow from "@/components/MovieRow";
-import ContinueWatching from "@/components/ContinueWatching";
+"use client";
 
-import {
-  getTrendingHero,
-  getTrendingMovies,
-  getTopRatedMovies,
-  getPopularMovies,
-  getUpcomingMovies,
-  getNowPlayingMovies,
-} from "@/lib/tmdb";
+import Link from "next/link";
 
-export default async function Home() {
-  const [
-    hero,
-    trending,
-    topRated,
-    popular,
-    upcoming,
-    nowPlaying,
-  ] = await Promise.all([
-    getTrendingHero(),
-    getTrendingMovies(),
-    getTopRatedMovies(),
-    getPopularMovies(),
-    getUpcomingMovies(),
-    getNowPlayingMovies(),
-  ]);
-
+export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[#070707] text-white">
-      <Sidebar />
+    <main className="min-h-screen p-8 text-white">
 
-      <div className="ml-64 p-10">
-        <div className="mb-8 flex items-center justify-between">
-          <input
-            placeholder="Search movies..."
-            className="w-96 rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-3 outline-none"
-          />
+      <section className="mb-12 rounded-3xl bg-gradient-to-r from-blue-700 to-purple-700 p-12">
+        <h1 className="mb-4 text-6xl font-black">
+          Welcome to MyTV
+        </h1>
 
-          <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 font-bold">
-              A
-            </div>
+        <p className="mb-8 max-w-2xl text-xl text-zinc-200">
+          Netflix + Plex + Jellyfin + Stremio inspired streaming platform.
+        </p>
 
-            <div>
-              <div className="font-semibold">
-                Apolonio
-              </div>
+        <div className="flex gap-4">
+          <Link
+            href="/movies"
+            className="rounded-xl bg-white px-8 py-4 font-bold text-black"
+          >
+            🎬 Movies
+          </Link>
 
-              <div className="text-sm text-gray-400">
-                Administrator
-              </div>
-            </div>
-          </div>
+          <Link
+            href="/live"
+            className="rounded-xl bg-zinc-800 px-8 py-4 font-bold"
+          >
+            📺 Live TV
+          </Link>
+
+          <Link
+            href="/series"
+            className="rounded-xl bg-zinc-800 px-8 py-4 font-bold"
+          >
+            📺 Series
+          </Link>
         </div>
+      </section>
 
-        <Hero movie={hero} />
+      <div className="grid grid-cols-3 gap-8">
 
-        <ContinueWatching />
+        <Link
+          href="/movies"
+          className="rounded-3xl bg-zinc-900 p-8 transition hover:bg-zinc-800"
+        >
+          <div className="mb-4 text-5xl">🎬</div>
 
-        <MovieRow
-          title="🔥 Trending"
-          movies={trending}
-        />
+          <h2 className="mb-2 text-3xl font-bold">
+            Movies
+          </h2>
 
-        <MovieRow
-          title="⭐ Top Rated"
-          movies={topRated}
-        />
+          <p className="text-zinc-400">
+            Browse your IPTV movie library.
+          </p>
+        </Link>
 
-        <MovieRow
-          title="🎬 Now Playing"
-          movies={nowPlaying}
-        />
+        <Link
+          href="/live"
+          className="rounded-3xl bg-zinc-900 p-8 transition hover:bg-zinc-800"
+        >
+          <div className="mb-4 text-5xl">📺</div>
 
-        <MovieRow
-          title="📅 Upcoming"
-          movies={upcoming}
-        />
+          <h2 className="mb-2 text-3xl font-bold">
+            Live TV
+          </h2>
 
-        <MovieRow
-          title="🍿 Popular"
-          movies={popular}
-        />
+          <p className="text-zinc-400">
+            Thousands of live channels.
+          </p>
+        </Link>
+
+        <Link
+          href="/series"
+          className="rounded-3xl bg-zinc-900 p-8 transition hover:bg-zinc-800"
+        >
+          <div className="mb-4 text-5xl">🍿</div>
+
+          <h2 className="mb-2 text-3xl font-bold">
+            TV Series
+          </h2>
+
+          <p className="text-zinc-400">
+            Watch complete TV shows.
+          </p>
+        </Link>
+
       </div>
+
     </main>
   );
 }

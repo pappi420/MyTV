@@ -1,56 +1,53 @@
-import Image from "next/image";
+"use client";
+
 import Link from "next/link";
 
-type MovieCardProps = {
-  id: number;
-  title: string;
-  year: string;
-  poster: string;
-  rating: number;
+import { Movie } from "@/types/movie";
+
+type Props = {
+  movie: Movie;
 };
 
 export default function MovieCard({
-  id,
-  title,
-  year,
-  poster,
-  rating,
-}: MovieCardProps) {
+  movie,
+}: Props) {
   return (
     <Link
-      href={`/movie/${id}`}
-      className="group relative block w-[170px] flex-shrink-0 cursor-pointer transition duration-300 hover:z-20 hover:scale-110"
+      href={`/movie/${movie.stream_id}`}
+      className="
+        group
+        block
+        overflow-hidden
+        rounded-2xl
+        bg-zinc-900
+        transition
+        hover:scale-105
+      "
     >
-      <div className="relative aspect-[2/3] overflow-hidden rounded-2xl">
-        <Image
-          src={poster}
-          alt={title}
-          fill
-          unoptimized
-          className="object-cover transition duration-500 group-hover:scale-110"
-        />
+      <img
+        src={movie.stream_icon}
+        alt={movie.name}
+        className="
+          aspect-[2/3]
+          w-full
+          object-cover
+        "
+      />
 
-        <div className="absolute inset-0 bg-black/0 transition duration-300 group-hover:bg-black/40" />
-
-        <div className="absolute left-2 top-2 rounded bg-black/80 px-2 py-1 text-xs">
-          ⭐ {rating}
-        </div>
-
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100">
-          <button className="rounded-full bg-white px-5 py-3 font-bold text-black">
-            ▶
-          </button>
-        </div>
-      </div>
-
-      <div className="mt-3">
-        <h3 className="line-clamp-1 font-semibold">
-          {title}
+      <div className="p-3">
+        <h3 className="line-clamp-2 font-semibold">
+          {movie.name}
         </h3>
 
-        <p className="text-sm text-gray-400">
-          {year}
-        </p>
+        <div className="mt-2 flex items-center justify-between text-sm text-zinc-400">
+          <span>
+            ⭐ {movie.rating || "N/A"}
+          </span>
+
+          <span>
+            {movie.year || ""}
+          </span>
+        </div>
       </div>
     </Link>
   );

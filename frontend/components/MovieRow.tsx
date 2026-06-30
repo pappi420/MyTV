@@ -1,44 +1,48 @@
+"use client";
+
 import MovieCard from "@/components/MovieCard";
+import { Movie } from "@/types/movie";
 
-type Movie = {
-  id: number;
-  title: string;
-  year: string;
-  rating: string | number;
-  poster: string;
-  backdrop?: string;
-  overview?: string;
-};
-
-type MovieRowProps = {
+type Props = {
   title: string;
   movies: Movie[];
+  onMovieClick?: (movie: Movie) => void;
 };
 
 export default function MovieRow({
   title,
   movies,
-}: MovieRowProps) {
+  onMovieClick,
+}: Props) {
+  if (movies.length === 0) {
+    return null;
+  }
+
   return (
-    <section className="mt-12">
-      <div className="mb-5 flex items-center justify-between">
-        <h2 className="text-2xl font-bold">{title}</h2>
+    <section className="mb-12">
+      <h2 className="mb-5 text-3xl font-bold">
+        {title}
+      </h2>
 
-        <button className="text-blue-400 hover:text-blue-300">
-          View All →
-        </button>
-      </div>
-
-      <div className="flex gap-6 overflow-x-auto pb-4">
+      <div
+        className="
+          flex
+          gap-5
+          overflow-x-auto
+          pb-4
+          scrollbar-hide
+        "
+      >
         {movies.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            id={movie.id}
-            title={movie.title}
-            year={movie.year}
-            poster={movie.poster}
-            rating={Number(movie.rating)}
-          />
+          <div
+            key={movie.stream_id}
+            className="w-[180px] flex-shrink-0"
+          >
+            <MovieCard
+              movie={movie}
+              onClick={() => onMovieClick?.(movie)}
+            />
+          </div>
         ))}
       </div>
     </section>

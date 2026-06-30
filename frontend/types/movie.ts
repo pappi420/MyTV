@@ -1,14 +1,21 @@
-export interface Movie {
-  id: number;
-  title: string;
+export type Movie = {
+  stream_id: number;
+
+  name: string;
+
+  stream_icon: string;
+
+  category_id: string;
+
+  added: string;
+
+  container_extension: string;
+
+  rating: string;
+
   year: string;
-  rating: string | number;
-  poster: string;
-  backdrop?: string;
-  overview?: string;
-  runtime?: number;
-  genres?: {
-    id: number;
-    name: string;
-  }[];
-}
+
+  plot?: string;
+
+  backdrop_path?: string[];
+};
