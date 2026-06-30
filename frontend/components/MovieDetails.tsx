@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import TrailerModal from "./TrailerModal";
 import MovieRow from "./MovieRow";
+import { useFavorites } from "@/context/FavoritesContext";
 
 type MovieDetailsProps = {
   movie: any;
@@ -18,6 +19,10 @@ export default function MovieDetails({
   trailer,
 }: MovieDetailsProps) {
   const [openTrailer, setOpenTrailer] = useState(false);
+  const {
+  toggleFavorite,
+  isFavorite,
+} = useFavorites();
 
   return (
     <main className="min-h-screen bg-[#070707] text-white">
@@ -104,9 +109,20 @@ export default function MovieDetails({
               </button>
             )}
 
-            <button className="rounded-xl border border-white px-8 py-4">
-              ❤ Favorite
-            </button>
+            <button
+  onClick={() =>
+    toggleFavorite({
+      id: movie.id,
+      title: movie.title,
+      year: movie.year,
+      poster: movie.poster,
+      rating: Number(movie.rating),
+    })
+  }
+  className="rounded-xl border border-white px-8 py-4"
+>
+  {isFavorite(movie.id) ? "❤️ Favorited" : "🤍 Favorite"}
+</button>
 
           </div>
 
