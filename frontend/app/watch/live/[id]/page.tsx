@@ -14,16 +14,21 @@ type Props = {
 export default function LiveWatchPage({
   params,
 }: Props) {
-  const [streamUrl, setStreamUrl] =
-    useState("");
+  const [streamUrl, setStreamUrl] = useState("");
 
   useEffect(() => {
     async function load() {
       const provider = loadProvider();
 
-      if (!provider) return;
+console.log("Provider:", provider);
+
+if (!provider) {
+  console.log("Provider not found!");
+  return;
+}
 
       const { id } = await params;
+      console.log("Stream ID:", id);
 
       const url =
         `${provider.server}/live/` +
@@ -33,6 +38,7 @@ export default function LiveWatchPage({
 
       console.log("STREAM URL:");
       console.log(url);
+      console.log("Setting stream URL...");
 
       setStreamUrl(url);
     }
@@ -40,17 +46,19 @@ export default function LiveWatchPage({
     load();
   }, [params]);
 
-  if (!streamUrl) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-black text-white">
-        Loading...
-      </main>
-    );
-  }
-
   return (
-    <main className="min-h-screen bg-black p-8">
-      <VideoPlayer src={streamUrl} />
+    <main className="min-h-screen bg-black p-8 text-white">
+      <h2 className="mb-4 text-xl font-bold">
+        Debug Stream URL
+      </h2>
+
+      <p className="mb-6 break-all text-green-400">
+        {streamUrl}
+      </p>
+
+      {streamUrl && (
+        <VideoPlayer src={streamUrl} />
+      )}
     </main>
   );
 }

@@ -1,11 +1,6 @@
 import Image from "next/image";
 
-type Channel = {
-  name: string;
-  logo?: string;
-  group?: string;
-  url: string;
-};
+import { Channel } from "@/types/channel";
 
 type Props = {
   channel: Channel;
